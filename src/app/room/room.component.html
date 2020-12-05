@@ -1,0 +1,74 @@
+<div class="row" style="height: 45vh;" *ngIf="!room">
+    <div style="margin: auto">
+        <h1>WHATTO</h1>
+    </div>
+</div>
+
+<div class="row" *ngIf="!room">
+    <div class="loader" style="margin: auto;"></div>
+</div>
+
+<div class="row" *ngIf="room">
+    <div class="col-12 col-md-4"></div>
+    <div class="col-12 col-md-4">
+        <p class="font-weight-lighter" style="margin-top: 30px; margin-bottom: 0px;">
+           <span (click)="logout()" style="cursor: pointer;">WHATTO</span>
+            <button (click)="logout()" style="float: right; margin-left: 10px;" type="button"
+                class="btn btn-outline-secondary btn-sm">
+                Change Room
+            </button>
+
+            <button (click)="toogleShowShare()" style="float: right;" type="button"
+                class="btn btn-outline-secondary btn-sm">
+                Share Room
+            </button>
+        </p>
+
+        <div class="row" style="margin-top: 20px;" *ngIf="showShare">
+            <div class="col-12">
+                <div class="alert alert-secondary" role="alert">
+                    <h4 class="alert-heading">Copied!</h4>
+                    <p>Aww yeah, a deep link was copied to your clipboard.</p>
+                    <hr>
+                    <p class="mb-0">Post it anywhere you like, to invite friends and collueges to work on your <small>WHATTO</small> {{room.roomname}}</p>
+                  </div>
+            </div>
+        </div>
+        <h1 class="display-2" style="margin-bottom: 0px;">#{{room.roomname}}</h1>
+    </div>
+    <div class="col-12 col-md-4"></div>
+</div>
+
+<div class="row">
+    <div class="col-4"></div>
+    <div class="col-12 col-md-4">
+        <ul class="list-group shadow-lg bg-white rounded " *ngIf="room">
+            <li style="min-height: 56px; " class="list-group-item" *ngFor="let todo of room.todos"
+                (click)="check(todo)">
+                <span *ngIf="todo.checked" class="badge badge-pill badge-success"
+                    style="margin-right: 30px;">Done</span>
+                <span *ngIf="!todo.checked" class="badge badge-pill badge-danger"
+                    style="margin-right: 30px;">Todo</span>
+                <del *ngIf="todo.checked">
+                    {{todo.todo}}
+                </del>
+                <span *ngIf="!todo.checked">{{todo.todo}} </span>
+                <button (click)="delete(todo)" style="float: right;" *ngIf="todo.checked" type="button"
+                    class="align-text-middle btn btn-danger btn-sm ">Delete</button>
+            </li>
+
+        </ul>
+    </div>
+    <div class="col-4"></div>
+</div>
+<div class="row" style="margin-top: 10px;" *ngIf="room">
+    <div class="col-12 col-md-4"></div>
+    <div class="col-8 col-md-3">
+        <input [(ngModel)]="todoTitle" (keyup.enter)="addTodo()" type="text" class="form-control"
+            placeholder="Enter additional todo...">
+    </div>
+    <div class="col-4 col-md-1">
+        <button style="float: right;" type="button" (click)="addTodo()" class="btn btn-primary">Add</button>
+    </div>
+    <div class="col-12 col-md-4"></div>
+</div>

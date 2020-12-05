@@ -1,0 +1,8 @@
+service cloud.firestore {
+  match /databases/{database}/documents {
+    match /rooms/{room} {
+      allow read, write: if request.auth.uid != null && request.auth.token.email.matches(room + "@whatto.web.app");
+      
+    }
+  }
+}

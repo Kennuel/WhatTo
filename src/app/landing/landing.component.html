@@ -1,0 +1,65 @@
+<div class="row" style="height: 5vh;"></div>
+<div class="row" style="height: 20vh;" *ngIf="loading">
+    <div style="margin: auto">
+        <h1>WHATTO</h1>
+    </div>
+</div>
+<div class="row" *ngIf="loading">
+    <div class="loader" style="margin: auto;"></div>
+</div>
+<div class="row" style="height: 50vh;" *ngIf="!loading">
+    <div class="col-12 col-md-4"></div>
+    <div class="col-12 col-md-4">
+        <h1 style="margin-bottom: 0px;">WHATTO</h1>
+        <h2 style="margin-top: 0px;"><span class="txt-rotate" data-period="2000" data-rotate='[ "do.",
+                            "learn.",
+                            "buy.",
+                            "explore.",
+                            "play.",
+                            "achieve.",
+                            "make.",
+                            "begin.",
+                            "write.",
+                            "draw.",
+                            "avoid.",
+                            "pay.",
+                            "learn.",
+                            "create.",
+                            "repair",
+                            "add.",
+                            "order.",
+                            "solve.",
+                            "remember.",
+                            "end.",
+                            "ask.",
+                            "bring.",
+                            "propose",
+                            "cook.",
+                            "teach.",
+                            "visit.",
+                            "give.",
+                            "install."]'></span></h2>
+        <div class="form-group">
+            <input [(ngModel)]="roomname" type="text" class="form-control" id="Roomname" aria-describedby="roomHelp"
+                placeholder="Enter Roomname" onkeyup="this.value = this.value.toLowerCase();">
+            <small id="roomHelp" class="form-text text-muted">Please enter an existing roomname or choose a new one
+                yourself. The room can consist of numbers, characters, minuses and underscores</small>
+        </div>
+        <div class="form-group">
+            <input [(ngModel)]="password" type="text" class="form-control" id="password"
+                aria-describedby="passwordHelp" placeholder="Enter Key" (keyup.enter)="enterroom()">
+            <small id="passwordHelp" class="form-text text-muted">Please enter the key with at least 6 characters for the existing room or
+                choose a new one.</small>
+        </div>
+        <button class="btn btn-primary" (click)="enterroom()">Enter Room</button>
+    </div>
+    <div class="col-12 col-md-4"></div>
+</div>
+<div class="row" *ngIf="!loading" style="margin-top: 60px; min-height: 600px;">
+    <div class="col-12 col-md-4"></div>
+    <div class="col-12 col-md-4" *ngIf="lastRooms">
+        <p style="margin-bottom: 0px;"><small>Last rooms</small></p>
+        <button *ngFor="let room of lastRooms" (click)="connectToRoom(room)" type="button"
+            class="btn btn-outline-secondary btn-sm" style="margin-right: 5px; margin-top: 5px;">{{room.roomname}}</button>
+    </div>
+</div>
