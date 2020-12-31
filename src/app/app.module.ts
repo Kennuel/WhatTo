@@ -10,6 +10,7 @@ import { AngularFireModule } from '@angular/fire';
 import { environment } from '../environments/environment';
 import { ServiceWorkerModule } from '@angular/service-worker';
 import { DlComponent } from './dl/dl.component';
+import { DragDropModule } from '@angular/cdk/drag-drop';
 
 
 @NgModule({
@@ -23,6 +24,7 @@ import { DlComponent } from './dl/dl.component';
     BrowserModule,
     AppRoutingModule,
     FormsModule,
+    DragDropModule,
     AngularFireModule.initializeApp(environment.firebase),
     ServiceWorkerModule.register('ngsw-worker.js', { enabled: environment.production })
   ],

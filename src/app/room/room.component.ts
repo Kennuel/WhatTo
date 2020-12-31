@@ -7,6 +7,7 @@ import { first } from 'rxjs/operators';
 import { AngularFirestore } from '@angular/fire/firestore';
 import 'firebase/firestore'
 import { timer } from 'rxjs';
+import {CdkDragDrop, moveItemInArray} from '@angular/cdk/drag-drop';
 
 @Component({
   selector: 'app-room',
@@ -66,6 +67,7 @@ export class RoomComponent implements OnInit, OnDestroy {
     }
     
     room.todos.sort(this.todoSort)
+
     this.room = room;    
     this.lastRooms = this.lastRooms.filter(room => room.roomname != this.room.roomname);
     this.lastRooms.slice(9);
@@ -91,17 +93,22 @@ export class RoomComponent implements OnInit, OnDestroy {
   }
   check(todo) {
     todo.checked = !todo.checked;
-    this.firestore.collection("rooms").doc(this.room.roomname).update(this.room).then();
+    this.updateRoom();
   }
 
   addTodo() {
     this.room.todos.push({todo: this.todoTitle, checked: false});
     this.todoTitle = "";
+    this.updateRoom();
+  }
+
+  private updateRoom() {
     this.firestore.collection("rooms").doc(this.room.roomname).update(this.room).then();
   }
+
   delete(todo) {
    this.room.todos = this.room.todos.filter(x =>  x.todo !== todo.todo)
-   this.firestore.collection("rooms").doc(this.room.roomname).update(this.room).then();
+   this.updateRoom();
   }
 
   toogleShowShare() {
@@ -109,6 +116,7 @@ export class RoomComponent implements OnInit, OnDestroy {
     timer(5000).pipe(first()).subscribe(() => this.showShare = false)
     this.copy();
   }
+
   copy() {
       const selBox = document.createElement('textarea');
       selBox.style.position = 'fixed';
@@ -121,6 +129,11 @@ export class RoomComponent implements OnInit, OnDestroy {
       selBox.select();
       document.execCommand('copy');
       document.body.removeChild(selBox);
+  }
+
+  drop(event: CdkDragDrop<any[]>) {
+    moveItemInArray(this.room.todos, event.previousIndex, event.currentIndex);
+    this.updateRoom();
   }
 
   private buildDeeplink(): string {

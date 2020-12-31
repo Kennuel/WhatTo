@@ -42,9 +42,9 @@
 <div class="row">
     <div class="col-4"></div>
     <div class="col-12 col-md-4">
-        <ul class="list-group shadow-lg bg-white rounded " *ngIf="room">
-            <li style="min-height: 56px; " class="list-group-item" *ngFor="let todo of room.todos"
-                (click)="check(todo)">
+        <div cdkDropList class="list-group shadow-lg bg-white rounded " *ngIf="room" (cdkDropListDropped)="drop($event)">
+            <div style="min-height: 56px; " class="list-group-item" *ngFor="let todo of room.todos"
+                (click)="check(todo)" cdkDrag>
                 <span *ngIf="todo.checked" class="badge badge-pill badge-success"
                     style="margin-right: 30px;">Done</span>
                 <span *ngIf="!todo.checked" class="badge badge-pill badge-danger"
@@ -55,9 +55,9 @@
                 <span *ngIf="!todo.checked">{{todo.todo}} </span>
                 <button (click)="delete(todo)" style="float: right;" *ngIf="todo.checked" type="button"
                     class="align-text-middle btn btn-danger btn-sm ">Delete</button>
-            </li>
+            </div>
 
-        </ul>
+        </div>
     </div>
     <div class="col-4"></div>
 </div>
