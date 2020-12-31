@@ -17,11 +17,11 @@ export class LandingComponent implements OnInit {
 
   roomname: string = "";
   password: string = "";
-  carousel = ['full-stack developer.','ui/ux designer.', 'blogger.'];
+  carousel = ['full-stack developer.', 'ui/ux designer.', 'blogger.'];
   loading = false;
   lastRooms;
-  errorMessage ="";
-  
+  errorMessage = "";
+
   constructor(
     private activeRoute: ActivatedRoute,
     private router: Router,
@@ -31,9 +31,9 @@ export class LandingComponent implements OnInit {
 
   ngOnInit(): void {
     this.loading = false;
-    
+
     this.lastRooms = JSON.parse(localStorage.getItem('lastRooms')) || [];
-  
+
     window.onload(null);
     this.auth.user.pipe(first()).toPromise().then(
       user => this.checkUser(user)
@@ -41,7 +41,7 @@ export class LandingComponent implements OnInit {
   }
 
   checkUser(user) {
-    if(user) {
+    if (user) {
       const roomId = user.email.split("@")[0];
       this.router.navigate(["/room/" + roomId]);
     }
@@ -52,7 +52,7 @@ export class LandingComponent implements OnInit {
     const roomname = this.buildRoomname();
     this.auth.createUserWithEmailAndPassword(roomname, this.password)
       .then(() => this.handleRoomCreation())
-      .catch (errorResponse => this.handleErrorResponse(errorResponse));
+      .catch(errorResponse => this.handleErrorResponse(errorResponse));
   }
 
   private buildRoomname() {
@@ -67,20 +67,20 @@ export class LandingComponent implements OnInit {
     }).then(() => this.router.navigate(["/room/" + this.roomname]))
   }
 
-  handleErrorResponse(errorResponse) { 
-    if(errorResponse.code  === "auth/email-already-in-use") {
+  handleErrorResponse(errorResponse) {
+    if (errorResponse.code === "auth/email-already-in-use") {
       this.auth.signInWithEmailAndPassword(this.buildRoomname(), this.password)
-      .then(() => this.router.navigate(["/room/" + this.roomname]))
-      .catch(error => this.displayError(error));
-    } 
-
-    this.displayError(errorResponse);
+        .then(() => this.router.navigate(["/room/" + this.roomname]))
+        .catch(error => this.displayError(error));
+    } else {
+      this.displayError(errorResponse);
+    }
   }
 
   displayError(errorResponse) {
-      console.error(errorResponse.message)
-      this.errorMessage = errorResponse.message.replace("user", "room");
-      this.loading = false;
+    console.error(errorResponse.message)
+    this.errorMessage = errorResponse.message.replace("user", "room");
+    this.loading = false;
   }
 
 
