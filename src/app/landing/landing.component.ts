@@ -20,6 +20,7 @@ export class LandingComponent implements OnInit {
   carousel = ['full-stack developer.','ui/ux designer.', 'blogger.'];
   loading = false;
   lastRooms;
+  errorMessage ="";
   
   constructor(
     private activeRoute: ActivatedRoute,
@@ -45,6 +46,7 @@ export class LandingComponent implements OnInit {
       this.router.navigate(["/room/" + roomId]);
     }
   }
+
   enterroom() {
     this.loading = true;
     const roomname = this.buildRoomname();
@@ -69,13 +71,18 @@ export class LandingComponent implements OnInit {
     if(errorResponse.code  === "auth/email-already-in-use") {
       this.auth.signInWithEmailAndPassword(this.buildRoomname(), this.password)
       .then(() => this.router.navigate(["/room/" + this.roomname]))
-      .catch(() => console.error("Room exists and Password is wrong!"))
-      .finally(() => this.loading = false)
-    } else {
-      //TODO: Check for pswd to short
-      console.error("ROOM could not be created")
-    }
+      .catch(error => this.displayError(error));
+    } 
+
+    this.displayError(errorResponse);
   }
+
+  displayError(errorResponse) {
+      console.error(errorResponse.message)
+      this.errorMessage = errorResponse.message.replace("user", "room");
+      this.loading = false;
+  }
+
 
   connectToRoom(room) {
     this.roomname = room.roomname;

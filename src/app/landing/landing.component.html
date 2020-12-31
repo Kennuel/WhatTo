@@ -1,4 +1,7 @@
-<div class="row" style="height: 5vh;"></div>
+<div class="row" style="height: 5vh;">
+
+</div>
+
 <div class="row" style="height: 20vh;" *ngIf="loading">
     <div style="margin: auto">
         <h1>WHATTO</h1>
@@ -10,6 +13,12 @@
 <div class="row" style="height: 50vh;" *ngIf="!loading">
     <div class="col-12 col-md-4"></div>
     <div class="col-12 col-md-4">
+        <div class="alert alert-danger alert-dismissible fade show" role="alert" *ngIf="errorMessage">
+            <strong>Holy guacamole!</strong> {{errorMessage}}
+            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+            </button>
+        </div>
         <h1 style="margin-bottom: 0px;">WHATTO</h1>
         <h2 style="margin-top: 0px;"><span class="txt-rotate" data-period="2000" data-rotate='[ "do.",
                             "learn.",
@@ -46,9 +55,10 @@
                 yourself. The room can consist of numbers, characters, minuses and underscores</small>
         </div>
         <div class="form-group">
-            <input [(ngModel)]="password" type="text" class="form-control" id="password"
-                aria-describedby="passwordHelp" placeholder="Enter Key" (keyup.enter)="enterroom()">
-            <small id="passwordHelp" class="form-text text-muted">Please enter the key with at least 6 characters for the existing room or
+            <input [(ngModel)]="password" type="text" class="form-control" id="password" aria-describedby="passwordHelp"
+                placeholder="Enter Key" (keyup.enter)="enterroom()">
+            <small id="passwordHelp" class="form-text text-muted">Please enter the key with at least 6 characters for
+                the existing room or
                 choose a new one.</small>
         </div>
         <button class="btn btn-primary" (click)="enterroom()">Enter Room</button>
@@ -60,6 +70,7 @@
     <div class="col-12 col-md-4" *ngIf="lastRooms">
         <p style="margin-bottom: 0px;"><small>Last rooms</small></p>
         <button *ngFor="let room of lastRooms" (click)="connectToRoom(room)" type="button"
-            class="btn btn-outline-secondary btn-sm" style="margin-right: 5px; margin-top: 5px;">{{room.roomname}}</button>
+            class="btn btn-outline-secondary btn-sm"
+            style="margin-right: 5px; margin-top: 5px;">{{room.roomname}}</button>
     </div>
 </div>
