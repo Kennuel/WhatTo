@@ -25,3 +25,21 @@
     border-color: #faebcc;
     display: none;
 }
+.example-box:active {
+    background-color: rgba(99, 99, 99, 0.5);
+    transition-delay:0.5s;
+  }
+
+  .cdk-drag-preview {
+    background-color: rgba(0, 0, 0, 0.5);
+  }
+
+/* Animate items as they're being sorted. */
+.cdk-drop-list-dragging .cdk-drag {
+    transition: transform 250ms cubic-bezier(0, 0, 0.2, 1);
+  }
+  
+  /* Animate an item that has been dropped. */
+  .cdk-drag-animating {
+    transition: transform 300ms cubic-bezier(0, 0, 0.2, 1);
+  }
