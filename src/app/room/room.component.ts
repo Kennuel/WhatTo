@@ -41,7 +41,13 @@ export class RoomComponent implements OnInit, OnDestroy {
       this.room$.unsubscribe();
       this.room$ = null;
     }
+  }
 
+  calcProgress() {
+    if(this.room.todos.length == 0)
+      return 0;
+    
+    return this.room.todos.filter(x => x.checked == true).length / this.room.todos.length;
   }
 
   checkUser(user) {

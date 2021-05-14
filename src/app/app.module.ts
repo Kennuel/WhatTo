@@ -11,6 +11,7 @@ import { environment } from '../environments/environment';
 import { ServiceWorkerModule } from '@angular/service-worker';
 import { DlComponent } from './dl/dl.component';
 import { DragDropModule } from '@angular/cdk/drag-drop';
+import { ProgessComponent } from './progess/progess.component';
 
 
 @NgModule({
@@ -18,7 +19,8 @@ import { DragDropModule } from '@angular/cdk/drag-drop';
     AppComponent,
     LandingComponent,
     RoomComponent,
-    DlComponent
+    DlComponent,
+    ProgessComponent
   ],
   imports: [
     BrowserModule,
