@@ -28,12 +28,11 @@ export class SpeechService {
 
   start() {
     this.isStoppedSpeechRecog = false;
+
     this.recognition.start();
-    console.log("Speech recognition started")
     this.recognition.addEventListener('end', (condition) => {
       if (this.isStoppedSpeechRecog) {
         this.recognition.stop();
-        console.log("End speech recognition")
       } else {
         this.wordConcat()
         this.recognition.start();
@@ -43,15 +42,15 @@ export class SpeechService {
 
   stop() {
     this.isStoppedSpeechRecog = true;
-    this.wordConcat()
+    this.wordConcat();
     this.recognition.stop();
-    console.log("End speech recognition")
-    return this.text;
+    var temp = this.text;
+    this.text = [];
+    return temp;
   }
 
   wordConcat() {
     this.text.push(...this.tempWords.split(" "));
     this.tempWords = '';
-    console.log(this.text);
   }
 }
