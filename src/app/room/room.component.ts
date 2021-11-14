@@ -8,6 +8,7 @@ import { AngularFirestore } from '@angular/fire/firestore';
 import 'firebase/firestore'
 import { timer } from 'rxjs';
 import {CdkDragDrop, moveItemInArray} from '@angular/cdk/drag-drop';
+import { SpeechService } from '../speech.service';
 
 @Component({
   selector: 'app-room',
@@ -16,6 +17,7 @@ import {CdkDragDrop, moveItemInArray} from '@angular/cdk/drag-drop';
 })
 export class RoomComponent implements OnInit, OnDestroy {
 
+  recording = false;
   room;
   room$;
   showShare = false;
@@ -27,13 +29,15 @@ export class RoomComponent implements OnInit, OnDestroy {
     private auth: AngularFireAuth,
     private activatedRoute: ActivatedRoute,
     private router: Router,
-    private firestore: AngularFirestore
+    private firestore: AngularFirestore,
+    private speech: SpeechService
   ) { }
 
   ngOnInit(): void {
     this.lastRooms = JSON.parse(localStorage.getItem('lastRooms')) || [];
     this.auth.authState.pipe(first())
       .toPromise().then(user => this.checkUser(user));
+    this.speech.init();
   }
 
   ngOnDestroy(): void {
@@ -145,4 +149,18 @@ export class RoomComponent implements OnInit, OnDestroy {
   private buildDeeplink(): string {
     return "https://" + window.location.href.split("/")[2] + "/dl/" + this.room.roomname + "/" + this.room.password;
   }
+
+  startRecording() {
+    this.recording = true;
+    this.speech.start();
+  }
+
+  stopRecording() {
+    this.recording = false;
+    this.speech.stop().forEach(entry => {
+      this.room.todos.push({todo: entry, checked: false});
+    });
+    this.updateRoom();
+  }
+
 }

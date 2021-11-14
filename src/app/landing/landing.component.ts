@@ -17,7 +17,34 @@ export class LandingComponent implements OnInit {
 
   roomname: string = "";
   password: string = "";
-  carousel = ['full-stack developer.', 'ui/ux designer.', 'blogger.'];
+  carousel = [ "do.",
+                            "learn.",
+                            "buy.",
+                            "explore.",
+                            "play.",
+                            "achieve.",
+                            "make.",
+                            "begin.",
+                            "write.",
+                            "draw.",
+                            "avoid.",
+                            "pay.",
+                            "learn.",
+                            "create.",
+                            "repair",
+                            "add.",
+                            "order.",
+                            "solve.",
+                            "remember.",
+                            "end.",
+                            "ask.",
+                            "bring.",
+                            "propose",
+                            "cook.",
+                            "teach.",
+                            "visit.",
+                            "give.",
+                            "install."];
   loading = false;
   lastRooms;
   errorMessage = "";
