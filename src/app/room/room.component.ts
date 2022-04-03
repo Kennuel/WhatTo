@@ -78,7 +78,7 @@ export class RoomComponent implements OnInit, OnDestroy {
     this.room = room;
     this.lastRooms = this.lastRooms.filter(room => room.roomname !== this.room.roomname);
     this.lastRooms.slice(9);
-    this.lastRooms.unshift({roomname: this.room.roomname, password: this.room.password})M
+    this.lastRooms.unshift({roomname: this.room.roomname, password: this.room.password});
     localStorage.setItem('lastRooms', JSON.stringify(this.lastRooms));
   }
 
