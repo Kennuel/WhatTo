@@ -5,7 +5,7 @@ import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { LandingComponent } from './landing/landing.component';
 import { RoomComponent } from './room/room.component';
-import { FormsModule } from '@angular/forms'
+import { FormsModule } from '@angular/forms';
 import { AngularFireModule } from '@angular/fire';
 import { environment } from '../environments/environment';
 import { ServiceWorkerModule } from '@angular/service-worker';

@@ -75,18 +75,6 @@
     <div class="col-4 col-md-1">
         <button style="float: right;" type="button" (click)="addTodo()" class="btn btn-primary">Add</button>
     </div>
- 
-    <div class="col-12 col-md-4"></div>
-</div>
 
-<div class="row" style="margin-top: 10px;" *ngIf="room">
     <div class="col-12 col-md-4"></div>
-    <div class="col-12 col-md-4" *ngIf="!recording">
-        <button style="float: right; width: 100%;" type="button" (click)="startRecording()" class="btn btn-primary">Speech</button>
-    </div>
-    <div class="col-12 col-md-4" *ngIf="recording">
-        <button style="float: right; width: 100%;" type="button" (click)="stopRecording()" class="btn btn-danger pulse">Stop</button>
-    </div>
-    <div class="col-12 col-md-4"></div>
- 
 </div>

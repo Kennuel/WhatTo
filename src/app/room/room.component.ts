@@ -5,10 +5,9 @@ import { AngularFireAuth } from '@angular/fire/auth';
 import { auth, initializeApp } from 'firebase/app';
 import { first } from 'rxjs/operators';
 import { AngularFirestore } from '@angular/fire/firestore';
-import 'firebase/firestore'
+import 'firebase/firestore';
 import { timer } from 'rxjs';
 import {CdkDragDrop, moveItemInArray} from '@angular/cdk/drag-drop';
-import { SpeechService } from '../speech.service';
 
 @Component({
   selector: 'app-room',
@@ -17,12 +16,11 @@ import { SpeechService } from '../speech.service';
 })
 export class RoomComponent implements OnInit, OnDestroy {
 
-  recording = false;
   room;
   room$;
   showShare = false;
 
-  todoTitle = "";
+  todoTitle = '';
   lastRooms;
 
   constructor(
@@ -30,14 +28,12 @@ export class RoomComponent implements OnInit, OnDestroy {
     private activatedRoute: ActivatedRoute,
     private router: Router,
     private firestore: AngularFirestore,
-    private speech: SpeechService
   ) { }
 
   ngOnInit(): void {
     this.lastRooms = JSON.parse(localStorage.getItem('lastRooms')) || [];
     this.auth.authState.pipe(first())
       .toPromise().then(user => this.checkUser(user));
-    this.speech.init();
   }
 
   ngOnDestroy(): void {
@@ -48,45 +44,46 @@ export class RoomComponent implements OnInit, OnDestroy {
   }
 
   calcProgress() {
-    if(this.room.todos.length == 0)
+    if (this.room.todos.length === 0) {
       return 0;
-    
-    return this.room.todos.filter(x => x.checked == true).length / this.room.todos.length;
+    }
+
+    return this.room.todos.filter(x => x.checked === true).length / this.room.todos.length;
   }
 
   checkUser(user) {
     if (!user) {
-      this.navigateHome()
+      this.navigateHome();
     } else {
-      this.init()
+      this.init();
     }
   }
 
   init() {
-    const roomId = this.activatedRoute.snapshot.paramMap.get("id");
+    const roomId = this.activatedRoute.snapshot.paramMap.get('id');
     if (!roomId) {
       this.logout();
     }
 
-    this.room$ = this.firestore.collection("rooms").doc(roomId).valueChanges().subscribe(room => this.checkRoom(room));
+    this.room$ = this.firestore.collection('rooms').doc(roomId).valueChanges().subscribe(room => this.checkRoom(room));
   }
 
   private checkRoom(room: any) {
     if (!room) {
       this.logout();
     }
-    
-    room.todos.sort(this.todoSort)
 
-    this.room = room;    
-    this.lastRooms = this.lastRooms.filter(room => room.roomname != this.room.roomname);
+    room.todos.sort(this.todoSort);
+
+    this.room = room;
+    this.lastRooms = this.lastRooms.filter(room => room.roomname !== this.room.roomname);
     this.lastRooms.slice(9);
-    this.lastRooms.unshift({roomname: this.room.roomname, password: this.room.password})
+    this.lastRooms.unshift({roomname: this.room.roomname, password: this.room.password})M
     localStorage.setItem('lastRooms', JSON.stringify(this.lastRooms));
   }
 
   todoSort(todo1, todo2) {
-    if (todo1.checked == todo2.checked) {
+    if (todo1.checked === todo2.checked) {
       return 0;
     }
     if (!todo1.checked) {
@@ -96,7 +93,7 @@ export class RoomComponent implements OnInit, OnDestroy {
   }
 
   navigateHome() {
-    this.router.navigate([""]);
+    this.router.navigate(['']);
   }
   logout() {
     this.auth.signOut().then(() => this.navigateHome());
@@ -147,20 +144,7 @@ export class RoomComponent implements OnInit, OnDestroy {
   }
 
   private buildDeeplink(): string {
-    return "https://" + window.location.href.split("/")[2] + "/dl/" + this.room.roomname + "/" + this.room.password;
-  }
-
-  startRecording() {
-    this.recording = true;
-    this.speech.start();
-  }
-
-  stopRecording() {
-    this.recording = false;
-    this.speech.stop().forEach(entry => {
-      this.room.todos.push({todo: entry, checked: false});
-    });
-    this.updateRoom();
+    return 'https://' + window.location.href.split('/')[2] + '/dl/' + this.room.roomname + '/' + this.room.password;
   }
 
 }
