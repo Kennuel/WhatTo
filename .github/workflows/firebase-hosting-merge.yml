@@ -20,3 +20,4 @@ jobs:
           projectId: whatto-f7f7c
         env:
           FIREBASE_CLI_PREVIEWS: hostingchannels
+
