@@ -21,6 +21,10 @@ export class RoomComponent implements OnInit, OnDestroy {
 
   todoTitle = '';
   lastRooms: any;
+  private preventSimpleClick: boolean = false;
+  private timer: any;
+  private todoInEditMode: any;
+  editTitle: string = "";
 
   constructor(
     private auth: AngularFireAuth,
@@ -101,14 +105,31 @@ export class RoomComponent implements OnInit, OnDestroy {
     this.auth.signOut().then(() => this.navigateHome());
   }
   check(todo: { checked: boolean; }) {
-    todo.checked = !todo.checked;
-    this.updateRoom();
+    this.timer = 0;
+    this.preventSimpleClick = false;
+    let delay = 200;
+    this.timer = setTimeout(() => {
+      if(!this.preventSimpleClick){
+        todo.checked = !todo.checked;
+        this.updateRoom();
+      }
+    }, delay);
+
+
   }
 
   addTodo() {
-    this.room.todos.push({todo: this.todoTitle, checked: false});
-    this.todoTitle = "";
+    if(this.todoInEditMode != null) {
+      this.todoInEditMode.editMode = false;
+      this.todoInEditMode.todo = this.editTitle;
+      this.editTitle = "";
+      this.todoInEditMode = null;
+    } else {
+      this.room.todos.push({todo: this.todoTitle, checked: false});
+      this.todoTitle = "";
+    }
     this.updateRoom();
+
   }
 
   private updateRoom() {
@@ -149,4 +170,15 @@ export class RoomComponent implements OnInit, OnDestroy {
     return 'https://' + window.location.href.split('/')[2] + '/dl/' + this.room.roomname + '/' + this.room.password;
   }
 
+  editTodo(todo: any) {
+    this.preventSimpleClick = true;
+    clearTimeout(this.timer);
+
+    if(this.todoInEditMode != null) {
+      return;
+    }
+    todo.editMode = true;
+    this.todoInEditMode = todo;
+    this.editTitle = todo.todo;
+  }
 }

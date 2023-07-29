@@ -1,48 +1,51 @@
 <div class="row" style="height: 45vh;" *ngIf="!room">
-    <div style="margin: auto">
-        <h1>WHATTO</h1>
-    </div>
+  <div style="margin: auto">
+    <h1>WHATTO</h1>
+  </div>
 </div>
 
 <div class="row" *ngIf="!room">
-    <div class="loader" style="margin: auto;"></div>
+  <div class="loader" style="margin: auto;"></div>
 </div>
 
 <div class="row" *ngIf="room">
-    <div class="col-12 col-md-4"></div>
-    <div class="col-12 col-md-4">
-        <p class="font-weight-lighter" style="margin-top: 30px; margin-bottom: 0px;">
-           <span (click)="logout()" style="cursor: pointer;">WHATTO</span>
-            <button (click)="logout()" style="float: right; margin-left: 10px;" type="button"
-                class="btn btn-outline-secondary btn-sm">
-                Change Room
-            </button>
+  <div class="col-12 col-md-4"></div>
+  <div class="col-12 col-md-4">
+    <p class="font-weight-lighter" style="margin-top: 30px; margin-bottom: 0px;">
+      <span (click)="logout()" style="cursor: pointer;">WHATTO</span>
+      <button (click)="logout()" style="float: right; margin-left: 10px;" type="button"
+              class="btn btn-outline-secondary btn-sm">
+        Change Room
+      </button>
 
-            <button (click)="toogleShowShare()" style="float: right;" type="button"
-                class="btn btn-outline-secondary btn-sm">
-                Share Room
-            </button>
-        </p>
+      <button (click)="toogleShowShare()" style="float: right;" type="button"
+              class="btn btn-outline-secondary btn-sm">
+        Share Room
+      </button>
+    </p>
 
-        <div class="row" style="margin-top: 20px;" *ngIf="showShare">
-            <div class="col-12">
-                <div class="alert alert-secondary" role="alert">
-                    <h4 class="alert-heading">Copied!</h4>
-                    <p>Aww yeah, a deep link was copied to your clipboard.</p>
-                    <hr>
-                    <p class="mb-0">Post it anywhere you like, to invite friends and collueges to work on your <small>WHATTO</small> {{room.roomname}}</p>
-                  </div>
-            </div>
+    <div class="row" style="margin-top: 20px;" *ngIf="showShare">
+      <div class="col-12">
+        <div class="alert alert-secondary" role="alert">
+          <h4 class="alert-heading">Copied!</h4>
+          <p>Aww yeah, a deep link was copied to your clipboard.</p>
+          <hr>
+          <p class="mb-0">Post it anywhere you like, to invite friends and collueges to work on your
+            <small>WHATTO</small> {{room.roomname}}</p>
         </div>
-        <h1 class="display-2" style="margin-bottom: 0px;">#{{room.roomname}}</h1>
-        <div class="progress" style="margin-bottom: 10px;">
-            <div class="progress-bar bg-success" role="progressbar" style="width: {{calcProgress()*100}}%;" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100">{{calcProgress()*100 | number: '1.0-0'}}%</div>
-          </div>
+      </div>
     </div>
-    <div class="col-12 col-md-4"></div>
+    <h1 class="display-2" style="margin-bottom: 0px;">#{{room.roomname}}</h1>
+    <div class="progress" style="margin-bottom: 10px;">
+      <div class="progress-bar bg-success" role="progressbar" style="width: {{calcProgress()*100}}%;" aria-valuenow="25"
+           aria-valuemin="0" aria-valuemax="100">{{calcProgress() * 100 | number: '1.0-0'}}%
+      </div>
+    </div>
+  </div>
+  <div class="col-12 col-md-4"></div>
 </div>
 
-<nav>
+<!--nav>
   <div class="nav nav-tabs" id="nav-tab" role="tablist">
     <button class="nav-link active" id="nav-home-tab" data-bs-toggle="tab" data-bs-target="#nav-home" type="button" role="tab" aria-controls="nav-home" aria-selected="true">Test1</button>
     <button class="nav-link" id="nav-profile-tab" data-bs-toggle="tab" data-bs-target="#nav-profile" type="button" role="tab" aria-controls="nav-profile" aria-selected="false">Test2</button>
@@ -53,40 +56,52 @@
   <div class="tab-pane fade show active" id="nav-home" role="tabpanel" aria-labelledby="nav-home-tab">Test Tab</div>
   <div class="tab-pane fade" id="nav-profile" role="tabpanel" aria-labelledby="nav-profile-tab">Test Tab2</div>
   <div class="tab-pane fade" id="nav-contact" role="tabpanel" aria-labelledby="nav-contact-tab">TestTab3</div>
-</div>
+</div-->
 <div class="row">
-    <div class="col-4"></div>
-    <div class="col-12 col-md-4">
-        <div cdkDropList class="list-group shadow-lg bg-white rounded" *ngIf="room" (cdkDropListDropped)="drop($event)">
-            <div style="min-height: 56px; " class="list-group-item example-box" *ngFor="let todo of room.todos"
-                (click)="check(todo)" cdkDragLockAxis="y" cdkDrag [cdkDragStartDelay]="500">
-                <span *ngIf="todo.checked" class="badge badge-pill badge-success"
-                    style="margin-right: 30px;">Done</span>
-                <span *ngIf="!todo.checked" class="badge badge-pill badge-danger"
-                    style="margin-right: 30px;">Todo</span>
-                <del *ngIf="todo.checked">
-                    {{todo.todo}}
-                </del>
-                <span *ngIf="!todo.checked">{{todo.todo}} </span>
-                <button (click)="delete(todo)" style="float: right;" *ngIf="todo.checked" type="button"
-                    class="align-text-middle btn btn-danger btn-sm ">Delete</button>
-            </div>
-
+  <div class="col-4"></div>
+  <div class="col-12 col-md-4">
+    <div cdkDropList class="list-group shadow-lg bg-white rounded" *ngIf="room" (cdkDropListDropped)="drop($event)">
+      <div style="min-height: 56px; " class="list-group-item example-box" *ngFor="let todo of room.todos"
+           (dblclick)="editTodo(todo)" cdkDragLockAxis="y" cdkDrag [cdkDragStartDelay]="500">
+        <div class="row" *ngIf="todo.editMode">
+          <div class="col-8 col-md-9">
+            <input [(ngModel)]="editTitle" (keyup.enter)="addTodo()" type="text" class="form-control"
+                   placeholder="Enter additional todo...">
+          </div>
+          <div class="col-4 col-md-3">
+            <button style="float: right;" type="button" (click)="addTodo()" class="btn btn-primary">Add</button>
+          </div>
         </div>
+        <div *ngIf="!todo.editMode" (click)="check(todo)">
+                <span *ngIf="todo.checked" class="badge badge-pill badge-success"
+                      style="margin-right: 30px;">Done</span>
+          <span *ngIf="!todo.checked" class="badge badge-pill badge-danger"
+                style="margin-right: 30px;">Todo</span>
+          <del *ngIf="todo.checked">
+            {{todo.todo}}
+          </del>
+          <span *ngIf="!todo.checked">{{todo.todo}} </span>
+          <button (click)="delete(todo)" style="float: right;" *ngIf="todo.checked" type="button"
+                  class="align-text-middle btn btn-danger btn-sm ">Delete
+          </button>
+        </div>
+      </div>
+
     </div>
-    <div class="col-4"></div>
+  </div>
+  <div class="col-4"></div>
 </div>
 
 
 <div class="row" style="margin-top: 10px;" *ngIf="room">
-    <div class="col-12 col-md-4"></div>
-    <div class="col-8 col-md-3">
-        <input [(ngModel)]="todoTitle" (keyup.enter)="addTodo()" type="text" class="form-control"
-            placeholder="Enter additional todo...">
-    </div>
-    <div class="col-4 col-md-1">
-        <button style="float: right;" type="button" (click)="addTodo()" class="btn btn-primary">Add</button>
-    </div>
+  <div class="col-12 col-md-4"></div>
+  <div class="col-8 col-md-3">
+    <input [(ngModel)]="todoTitle" (keyup.enter)="addTodo()" type="text" class="form-control"
+           placeholder="Enter additional todo...">
+  </div>
+  <div class="col-4 col-md-1">
+    <button style="float: right;" type="button" (click)="addTodo()" class="btn btn-primary">Add</button>
+  </div>
 
-    <div class="col-12 col-md-4"></div>
+  <div class="col-12 col-md-4"></div>
 </div>
