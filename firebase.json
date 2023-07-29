@@ -5,7 +5,7 @@
   },
   "hosting": {
     "site": "whattobuy",
-    "public": "dist/whatto",
+    "public": "dist/what-to",
     "ignore": [
       "firebase.json",
       "**/.*",
