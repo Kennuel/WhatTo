@@ -23,7 +23,7 @@ export class RoomComponent implements OnInit, OnDestroy {
   lastRooms: any;
   private preventSimpleClick: boolean = false;
   private timer: any;
-  private todoInEditMode: any;
+  todoInEditMode: any;
   editTitle: string = "";
 
   constructor(

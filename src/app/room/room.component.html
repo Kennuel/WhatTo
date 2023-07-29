@@ -93,7 +93,7 @@
 </div>
 
 
-<div class="row" style="margin-top: 10px;" *ngIf="room">
+<div class="row" style="margin-top: 10px;" *ngIf="room && !todoInEditMode">
   <div class="col-12 col-md-4"></div>
   <div class="col-8 col-md-3">
     <input [(ngModel)]="todoTitle" (keyup.enter)="addTodo()" type="text" class="form-control"
