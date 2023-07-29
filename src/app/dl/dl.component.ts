@@ -1,8 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
-import { AngularFireAuth } from '@angular/fire/auth';
-import { auth } from 'firebase/app';
+import { AngularFireAuth } from '@angular/fire/compat/auth';
 import { first } from 'rxjs/operators';
+import firebase from 'firebase/compat';
 
 @Component({
   selector: 'app-dl',
@@ -13,18 +13,18 @@ export class DlComponent implements OnInit {
 
   constructor(
     private auth: AngularFireAuth,
-    private router: Router, 
+    private router: Router,
     private activeRoute: ActivatedRoute) {
-    
-   }
 
-   ngOnInit(): void {
+  }
+
+  ngOnInit(): void {
     this.auth.user.pipe(first()).toPromise().then(
       user => this.checkUser(user)
     )
   }
 
-  checkUser(user) {
+  checkUser(user: firebase.User | null | undefined) {
     if(user) {
       this.auth.signOut().then(
         () => this.connectToRoom()
@@ -40,10 +40,12 @@ export class DlComponent implements OnInit {
       this.router.navigate([""]);
     }
 
-    this.auth.signInWithEmailAndPassword(this.buildRoomname(roomId), paswd)
-    .then(() => this.router.navigate(["/room/" + roomId]));
+    if (paswd != null) {
+      this.auth.signInWithEmailAndPassword(this.buildRoomname(roomId), paswd)
+        .then(() => this.router.navigate(["/room/" + roomId]));
+    }
   }
-  private buildRoomname(roomId) {
+  private buildRoomname(roomId: string | null) {
     return roomId + '@whatto.web.app';
   }
 }

@@ -6,11 +6,12 @@ import { AppComponent } from './app.component';
 import { LandingComponent } from './landing/landing.component';
 import { RoomComponent } from './room/room.component';
 import { FormsModule } from '@angular/forms';
-import { AngularFireModule } from '@angular/fire';
+import { AngularFireModule } from '@angular/fire/compat';
 import { environment } from '../environments/environment';
 import { ServiceWorkerModule } from '@angular/service-worker';
 import { DlComponent } from './dl/dl.component';
 import { DragDropModule } from '@angular/cdk/drag-drop';
+import {RouterModule} from "@angular/router";
 
 
 @NgModule({
@@ -22,6 +23,7 @@ import { DragDropModule } from '@angular/cdk/drag-drop';
   ],
   imports: [
     BrowserModule,
+    RouterModule,
     AppRoutingModule,
     FormsModule,
     DragDropModule,
