@@ -18,6 +18,7 @@ export class RoomComponent implements OnInit, OnDestroy {
   room: any;
   room$: any;
   showShare = false;
+  tabIndex = 0;
 
   todoTitle = '';
   lastRooms: any;
@@ -125,7 +126,7 @@ export class RoomComponent implements OnInit, OnDestroy {
       this.editTitle = "";
       this.todoInEditMode = null;
     } else {
-      this.room.todos.push({todo: this.todoTitle, checked: false});
+      this.room.todos.push({todo: this.todoTitle, checked: false, tabIndex: this.tabIndex});
       this.todoTitle = "";
     }
     this.updateRoom();
@@ -180,5 +181,9 @@ export class RoomComponent implements OnInit, OnDestroy {
     todo.editMode = true;
     this.todoInEditMode = todo;
     this.editTitle = todo.todo;
+  }
+
+  getTodosForTab() {
+    return this.room.todos.filter((todo:any) => (todo.tabIndex ? todo.tabIndex : 0) == this.tabIndex);
   }
 }

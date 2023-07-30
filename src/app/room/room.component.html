@@ -45,63 +45,158 @@
   <div class="col-12 col-md-4"></div>
 </div>
 
-<!--nav>
-  <div class="nav nav-tabs" id="nav-tab" role="tablist">
-    <button class="nav-link active" id="nav-home-tab" data-bs-toggle="tab" data-bs-target="#nav-home" type="button" role="tab" aria-controls="nav-home" aria-selected="true">Test1</button>
-    <button class="nav-link" id="nav-profile-tab" data-bs-toggle="tab" data-bs-target="#nav-profile" type="button" role="tab" aria-controls="nav-profile" aria-selected="false">Test2</button>
-    <button class="nav-link" id="nav-contact-tab" data-bs-toggle="tab" data-bs-target="#nav-contact" type="button" role="tab" aria-controls="nav-contact" aria-selected="false">Test3</button>
-  </div>
-</nav>
-<div class="tab-content" id="nav-tabContent">
-  <div class="tab-pane fade show active" id="nav-home" role="tabpanel" aria-labelledby="nav-home-tab">Test Tab</div>
-  <div class="tab-pane fade" id="nav-profile" role="tabpanel" aria-labelledby="nav-profile-tab">Test Tab2</div>
-  <div class="tab-pane fade" id="nav-contact" role="tabpanel" aria-labelledby="nav-contact-tab">TestTab3</div>
-</div-->
 <div class="row">
   <div class="col-4"></div>
-  <div class="col-12 col-md-4">
-    <div cdkDropList class="list-group shadow-lg bg-white rounded" *ngIf="room" (cdkDropListDropped)="drop($event)">
-      <div style="min-height: 56px; " class="list-group-item example-box" *ngFor="let todo of room.todos"
-           (dblclick)="editTodo(todo)" cdkDragLockAxis="y" cdkDrag [cdkDragStartDelay]="500">
-        <div class="row" *ngIf="todo.editMode">
+  <div class="col-12 col-md-4" >
+    <mat-tab-group [(selectedIndex)]="tabIndex">
+      <mat-tab label="1">
+        <div class="row" style="margin-top: 10px">
+          <div class="col-12">
+            <div cdkDropList class="list-group shadow-lg bg-white rounded" *ngIf="room"
+                 (cdkDropListDropped)="drop($event)">
+
+              <div style="min-height: 56px; " class="list-group-item example-box" *ngFor="let todo of getTodosForTab()"
+                   (dblclick)="editTodo(todo)" cdkDragLockAxis="y" cdkDrag [cdkDragStartDelay]="500">
+
+                <div class="row" *ngIf="todo.editMode">
+                  <div class="col-8 col-md-9">
+                    <input [(ngModel)]="editTitle" (keyup.enter)="addTodo()" type="text" class="form-control"
+                           placeholder="Enter additional todo..." [cdkTrapFocusAutoCapture]="todo.editMode"
+                           [cdkTrapFocus]="todo.editMode">
+                  </div>
+                  <div class="col-4 col-md-3">
+                    <button style="float: right;" type="button" (click)="addTodo()" class="btn btn-primary">Add</button>
+                  </div>
+                </div>
+                <div *ngIf="!todo.editMode" (click)="check(todo)">
+                <span *ngIf="todo.checked" class="badge badge-pill badge-success"
+                      style="margin-right: 30px;">Done</span>
+                  <span *ngIf="!todo.checked" class="badge badge-pill badge-danger"
+                        style="margin-right: 30px;">Todo</span>
+                  <del *ngIf="todo.checked">
+                    {{todo.todo}}
+                  </del>
+                  <span *ngIf="!todo.checked">{{todo.todo}} </span>
+                  <button (click)="delete(todo)" style="float: right;" *ngIf="todo.checked" type="button"
+                          class="align-text-middle btn btn-danger btn-sm ">Delete
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+
+        </div>
+        <div class="row" style="margin-top: 10px;" *ngIf="room && !todoInEditMode">
           <div class="col-8 col-md-9">
-            <input [(ngModel)]="editTitle" (keyup.enter)="addTodo()" type="text" class="form-control"
-                   placeholder="Enter additional todo..."  [cdkTrapFocusAutoCapture]="todo.editMode" [cdkTrapFocus]="todo.editMode">
+            <input [(ngModel)]="todoTitle" (keyup.enter)="addTodo()" type="text" class="form-control"
+                   placeholder="Enter additional todo...">
           </div>
           <div class="col-4 col-md-3">
             <button style="float: right;" type="button" (click)="addTodo()" class="btn btn-primary">Add</button>
           </div>
+
         </div>
-        <div *ngIf="!todo.editMode" (click)="check(todo)">
+      </mat-tab>
+      <mat-tab label="2">
+        <div class="row" style="margin-top: 10px">
+          <div class="col-12">
+            <div cdkDropList class="list-group shadow-lg bg-white rounded" *ngIf="room"
+                 (cdkDropListDropped)="drop($event)">
+
+              <div style="min-height: 56px; " class="list-group-item example-box" *ngFor="let todo of getTodosForTab()"
+                   (dblclick)="editTodo(todo)" cdkDragLockAxis="y" cdkDrag [cdkDragStartDelay]="500">
+
+                <div class="row" *ngIf="todo.editMode">
+                  <div class="col-8 col-md-9">
+                    <input [(ngModel)]="editTitle" (keyup.enter)="addTodo()" type="text" class="form-control"
+                           placeholder="Enter additional todo..." [cdkTrapFocusAutoCapture]="todo.editMode"
+                           [cdkTrapFocus]="todo.editMode">
+                  </div>
+                  <div class="col-4 col-md-3">
+                    <button style="float: right;" type="button" (click)="addTodo()" class="btn btn-primary">Add</button>
+                  </div>
+                </div>
+                <div *ngIf="!todo.editMode" (click)="check(todo)">
                 <span *ngIf="todo.checked" class="badge badge-pill badge-success"
                       style="margin-right: 30px;">Done</span>
-          <span *ngIf="!todo.checked" class="badge badge-pill badge-danger"
-                style="margin-right: 30px;">Todo</span>
-          <del *ngIf="todo.checked">
-            {{todo.todo}}
-          </del>
-          <span *ngIf="!todo.checked">{{todo.todo}} </span>
-          <button (click)="delete(todo)" style="float: right;" *ngIf="todo.checked" type="button"
-                  class="align-text-middle btn btn-danger btn-sm ">Delete
-          </button>
+                  <span *ngIf="!todo.checked" class="badge badge-pill badge-danger"
+                        style="margin-right: 30px;">Todo</span>
+                  <del *ngIf="todo.checked">
+                    {{todo.todo}}
+                  </del>
+                  <span *ngIf="!todo.checked">{{todo.todo}} </span>
+                  <button (click)="delete(todo)" style="float: right;" *ngIf="todo.checked" type="button"
+                          class="align-text-middle btn btn-danger btn-sm ">Delete
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+
         </div>
-      </div>
+        <div class="row" style="margin-top: 10px;" *ngIf="room && !todoInEditMode">
+          <div class="col-8 col-md-9">
+            <input [(ngModel)]="todoTitle" (keyup.enter)="addTodo()" type="text" class="form-control"
+                   placeholder="Enter additional todo...">
+          </div>
+          <div class="col-4 col-md-3">
+            <button style="float: right;" type="button" (click)="addTodo()" class="btn btn-primary">Add</button>
+          </div>
 
-    </div>
+        </div>
+      </mat-tab>
+      <mat-tab label="3">
+        <div class="row" style="margin-top: 10px">
+          <div class="col-12">
+            <div cdkDropList class="list-group shadow-lg bg-white rounded" *ngIf="room"
+                 (cdkDropListDropped)="drop($event)">
+
+              <div style="min-height: 56px; " class="list-group-item example-box" *ngFor="let todo of getTodosForTab()"
+                   (dblclick)="editTodo(todo)" cdkDragLockAxis="y" cdkDrag [cdkDragStartDelay]="500">
+
+                <div class="row" *ngIf="todo.editMode">
+                  <div class="col-8 col-md-9">
+                    <input [(ngModel)]="editTitle" (keyup.enter)="addTodo()" type="text" class="form-control"
+                           placeholder="Enter additional todo..." [cdkTrapFocusAutoCapture]="todo.editMode"
+                           [cdkTrapFocus]="todo.editMode">
+                  </div>
+                  <div class="col-4 col-md-3">
+                    <button style="float: right;" type="button" (click)="addTodo()" class="btn btn-primary">Add</button>
+                  </div>
+                </div>
+                <div *ngIf="!todo.editMode" (click)="check(todo)">
+                <span *ngIf="todo.checked" class="badge badge-pill badge-success"
+                      style="margin-right: 30px;">Done</span>
+                  <span *ngIf="!todo.checked" class="badge badge-pill badge-danger"
+                        style="margin-right: 30px;">Todo</span>
+                  <del *ngIf="todo.checked">
+                    {{todo.todo}}
+                  </del>
+                  <span *ngIf="!todo.checked">{{todo.todo}} </span>
+                  <button (click)="delete(todo)" style="float: right;" *ngIf="todo.checked" type="button"
+                          class="align-text-middle btn btn-danger btn-sm ">Delete
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+
+        </div>
+        <div class="row" style="margin-top: 10px;" *ngIf="room && !todoInEditMode">
+          <div class="col-8 col-md-9">
+            <input [(ngModel)]="todoTitle" (keyup.enter)="addTodo()" type="text" class="form-control"
+                   placeholder="Enter additional todo...">
+          </div>
+          <div class="col-4 col-md-3">
+            <button style="float: right;" type="button" (click)="addTodo()" class="btn btn-primary">Add</button>
+          </div>
+
+        </div>
+      </mat-tab>
+    </mat-tab-group>
+    <div class="col-4"></div>
   </div>
-  <div class="col-4"></div>
 </div>
 
 
-<div class="row" style="margin-top: 10px;" *ngIf="room && !todoInEditMode">
-  <div class="col-12 col-md-4"></div>
-  <div class="col-8 col-md-3">
-    <input [(ngModel)]="todoTitle" (keyup.enter)="addTodo()" type="text" class="form-control"
-           placeholder="Enter additional todo...">
-  </div>
-  <div class="col-4 col-md-1">
-    <button style="float: right;" type="button" (click)="addTodo()" class="btn btn-primary">Add</button>
-  </div>
 
-  <div class="col-12 col-md-4"></div>
-</div>
