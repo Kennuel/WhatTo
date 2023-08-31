@@ -186,4 +186,15 @@ export class RoomComponent implements OnInit, OnDestroy {
   getTodosForTab() {
     return this.room.todos.filter((todo:any) => (todo.tabIndex ? todo.tabIndex : 0) == this.tabIndex);
   }
+
+  getLabelForId(number: number) {
+    return this.room.tabs[number] ? this.room.tabs[number]: number;
+  }
+
+  protected readonly alert = alert;
+  protected readonly ondblclick = ondblclick;
+
+  dblcickTab() {
+
+  }
 }
