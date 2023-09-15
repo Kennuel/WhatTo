@@ -7,6 +7,8 @@ import 'firebase/firestore';
 import { timer } from 'rxjs';
 import {CdkDragDrop, moveItemInArray} from '@angular/cdk/drag-drop';
 import firebase from 'firebase/compat';
+import {MatDialog} from '@angular/material/dialog';
+import {SubRoomComponent} from '../sub-room/sub-room.component';
 
 @Component({
   selector: 'app-room',
@@ -18,7 +20,7 @@ export class RoomComponent implements OnInit, OnDestroy {
   room: any;
   room$: any;
   showShare = false;
-  tabIndex = 0;
+  tabName = null;
 
   todoTitle = '';
   lastRooms: any;
@@ -32,6 +34,7 @@ export class RoomComponent implements OnInit, OnDestroy {
     private activatedRoute: ActivatedRoute,
     private router: Router,
     private firestore: AngularFirestore,
+    public dialog: MatDialog
   ) {
   }
 
@@ -72,7 +75,9 @@ export class RoomComponent implements OnInit, OnDestroy {
     }
 
     // @ts-ignore
-    this.room$ = this.firestore.collection('rooms').doc(roomId).valueChanges().subscribe(room => this.checkRoom(room));
+    this.room$ = this.firestore.collection('rooms').doc(roomId)
+      .valueChanges()
+      .subscribe(room => this.checkRoom(room));
   }
 
   private checkRoom(room: any) {
@@ -83,6 +88,7 @@ export class RoomComponent implements OnInit, OnDestroy {
     room.todos.sort(this.todoSort);
 
     this.room = room;
+    this.tabName = this.tabName ?? this.room.tabs[0];
     this.lastRooms = this.lastRooms.filter((room: { roomname: any; }) => room.roomname !== this.room.roomname);
     this.lastRooms.slice(9);
     this.lastRooms.unshift({roomname: this.room.roomname, password: this.room.password});
@@ -126,7 +132,7 @@ export class RoomComponent implements OnInit, OnDestroy {
       this.editTitle = "";
       this.todoInEditMode = null;
     } else {
-      this.room.todos.push({todo: this.todoTitle, checked: false, tabIndex: this.tabIndex});
+      this.room.todos.push({todo: this.todoTitle, checked: false, tabName: this.tabName});
       this.todoTitle = "";
     }
     this.updateRoom();
@@ -184,17 +190,34 @@ export class RoomComponent implements OnInit, OnDestroy {
   }
 
   getTodosForTab() {
-    return this.room.todos.filter((todo:any) => (todo.tabIndex ? todo.tabIndex : 0) == this.tabIndex);
+    return this.room.todos.filter((todo:any) => (todo.tabName ? todo.tabName : "") == this.tabName);
   }
 
-  getLabelForId(number: number) {
+  getLabelForId(number: any) {
     return this.room.tabs[number] ? this.room.tabs[number]: number;
   }
 
-  protected readonly alert = alert;
-  protected readonly ondblclick = ondblclick;
-
   dblcickTab() {
 
+  }
+
+  getTabs() {
+    return this.room.tabs;
+  }
+
+  openDialog() {
+    const dialogRef = this.dialog.open(SubRoomComponent, {
+    });
+
+    dialogRef.afterClosed().subscribe(result => {
+      this.room.tabs.push(result)
+    });
+  }
+
+  removeRoom() {
+    this.room.todos.filter((todo:any) => (todo.tabName ? todo.tabName : "") == this.tabName).forEach((todo: any) => this.delete(todo));
+    this.room.tabs = this.room.tabs.filter((e:any) => e !== this.tabName);
+    this.tabName = null;
+    this.updateRoom();
   }
 }

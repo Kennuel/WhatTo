@@ -15,6 +15,10 @@ import {RouterModule} from '@angular/router';
 import {A11yModule} from '@angular/cdk/a11y';
 import {MatTabsModule} from '@angular/material/tabs';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import {MatInputModule} from '@angular/material/input';
+import {MatSelectModule} from '@angular/material/select';
+import { SubRoomComponent } from './sub-room/sub-room.component';
+import {MatDialogModule} from '@angular/material/dialog';
 
 
 @NgModule({
@@ -23,6 +27,7 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
     LandingComponent,
     RoomComponent,
     DlComponent,
+    SubRoomComponent,
   ],
   imports: [
     MatTabsModule,
@@ -34,7 +39,10 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
     AngularFireModule.initializeApp(environment.firebase),
     ServiceWorkerModule.register('ngsw-worker.js', {enabled: environment.production}),
     A11yModule,
-    BrowserAnimationsModule
+    BrowserAnimationsModule,
+    MatInputModule,
+    MatSelectModule,
+    MatDialogModule
   ],
   providers: [],
   bootstrap: [AppComponent]

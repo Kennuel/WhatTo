@@ -1,0 +1,13 @@
+<div mat-dialog-content>
+  <p>Choose Sub Roomname!</p>
+  <mat-form-field>
+    <mat-label>Subroom Name</mat-label>
+    <input matInput [(ngModel)]="roomname">
+  </mat-form-field>
+</div>
+<div mat-dialog-actions>
+  <button style="float: right; margin: 10px" type="button"
+          class="btn btn-outline-secondary btn-sm"[mat-dialog-close]="roomname" cdkFocusInitial>Ok</button>
+  <button  style="float: right;" type="button"
+          class="btn btn-outline-secondary btn-sm" (click)="onNoClick()">No Thanks</button>
+</div>
