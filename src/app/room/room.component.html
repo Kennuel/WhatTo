@@ -57,7 +57,7 @@
 <div class="row" *ngIf="room">
   <div class="col-12 col-md-4"></div>
   <div class="col-12 col-md-4">
-    <p class="font-weight-lighter" style="margin-top: 30px; margin-bottom: 0px;">
+    <p class="font-weight-lighter" style="float: right; margin-top: 30px; margin-bottom: 0px">
       <mat-form-field>
         <mat-label>Subroom</mat-label>
         <mat-select [(value)]="tabName">
@@ -66,19 +66,22 @@
           </mat-option>
         </mat-select>
       </mat-form-field>
-
-
-      <button (click)="removeRoom()" style="float: right;" type="button"
-              class="btn btn-outline-secondary btn-sm">
-        Remove SubRoom
-      </button>
-      <button (click)="openDialog()" style="float: right; margin-right: 10px;" type="button"
-              class="btn btn-outline-secondary btn-sm">
-        Add SubRoom
-      </button>
+    <button (click)="removeRoom()" type="button" style="margin-right: 5px; margin-left: 5px"
+            class="btn btn-outline-danger btn-sm">
+      X
+    </button>
     </p>
   </div>
   <div class="col-12 col-md-4"></div>
+</div>
+<div class="row" *ngIf="room">
+  <div class="col-12 col-md-4"></div>
+  <div class="col-12 col-md-4">
+    <button (click)="openDialog()" style="margin: 5px;float: right" type="button"
+            class="btn btn-outline-secondary btn-sm">
+      Add SubRoom
+    </button>
+  </div>
 </div>
 
 <div class="row">
@@ -91,7 +94,6 @@
 
           <div style="min-height: 56px; " class="list-group-item example-box" *ngFor="let todo of getTodosForTab()"
                cdkDragLockAxis="y" cdkDrag [cdkDragStartDelay]="500">
-
 
 
             <div (click)="check(todo)">
