@@ -169,7 +169,10 @@ export class RoomComponent implements OnInit, OnDestroy {
   }
 
   drop(event: CdkDragDrop<any[]>) {
-    moveItemInArray(this.room.todos, event.previousIndex, event.currentIndex);
+    const currentTodos = this.room.todos.filter((todo:any) => todo.tabName == this.tabName);
+    const otherTodos = this.room.todos.filter((todo:any) => todo.tabName != this.tabName);
+    moveItemInArray(currentTodos, event.previousIndex, event.currentIndex);
+    this.room.todos = [...currentTodos, ...otherTodos];
     this.updateRoom();
   }
 
